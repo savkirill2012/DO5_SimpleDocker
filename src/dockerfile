@@ -1,0 +1,22 @@
+FROM nginx:latest
+
+WORKDIR /home
+
+COPY /task3/nginx.conf /etc/nginx/ 
+COPY /task3/server.c /home
+COPY  /task4/run.sh  .
+
+USER root 
+
+RUN apt-get update && \
+    apt-get -y install gcc && \   
+    apt-get install spawn-fcgi && \
+    apt-get -y install libfcgi-dev && \
+    chown -R nginx:nginx /etc/nginx/nginx.conf; \
+    chown -R nginx:nginx /home; \
+    chown -R nginx:nginx /var/run/nginx.pid; \
+    rm -rf /var/lib/apt/lists
+
+USER nginx
+
+ENTRYPOINT ["sh" , "./run.sh"]

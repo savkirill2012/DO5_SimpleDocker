@@ -1,0 +1,10 @@
+version: "3"
+services:
+  serv:
+    build: .
+  proxy:
+    build: ./task6
+    ports:
+      - 80:8080
+    depends_on:
+      - serv
